@@ -49,10 +49,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: _telas[_indiceAtual],
+      body: Container(
+        padding: EdgeInsets.all(16),
+        child: _telas[_indiceAtual],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _indiceAtual,
-        onTap: (indice){
+        onTap: (indice) {
           setState(() {
             _indiceAtual = indice;
           });
@@ -77,7 +80,6 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.folder),
           ),
         ],
-
       ),
     );
   }
