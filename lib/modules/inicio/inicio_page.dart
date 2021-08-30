@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/model/video.dart';
 import 'package:youtube/services/api.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 
 class InicioPage extends StatefulWidget {
   final String? pesquisa;
@@ -38,20 +39,30 @@ class _InicioPageState extends State<InicioPage> {
                       var videos = snapshot.data;
                       var video = videos![index];
 
-                      return Column(
-                        children: [
-                          Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(video.imagem!))),
-                          ),
-                          ListTile(
-                            title: Text(video.titulo!),
-                            subtitle: Text(video.descricao!),
-                          )
-                        ],
+                      return GestureDetector(
+                        onTap: () {
+                          FlutterYoutube.playYoutubeVideoById(
+                              apiKey: CHAVE_YOUTUBE_API,
+                              videoId: video.id,
+                              autoPlay: true,
+                              fullScreen: true);
+                        },
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 200,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(video.imagem!),
+                              )),
+                            ),
+                            ListTile(
+                              title: Text(video.titulo!),
+                              subtitle: Text(video.canal!),
+                            )
+                          ],
+                        ),
                       );
                     },
                     separatorBuilder: (context, index) => Divider(
