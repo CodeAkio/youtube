@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/modules/biblioteca/biblioteca_page.dart';
+import 'package:youtube/modules/custom_search_delegate/CustomSearchDelegate.dart';
 import 'package:youtube/modules/em_alta/em_alta_page.dart';
 import 'package:youtube/modules/inicio/inicio_page.dart';
 import 'package:youtube/modules/inscricao/inscricao_page.dart';
@@ -13,16 +14,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _indiceAtual = 0;
-
-  List<Widget> _telas = [
-    InicioPage(),
-    EmAltaPage(),
-    InscricaoPage(),
-    BibliotecaPage()
-  ];
+  String? _resultado = "";
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _telas = [
+      InicioPage(pesquisa: this._resultado),
+      EmAltaPage(),
+      InscricaoPage(),
+      BibliotecaPage()
+    ];
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -36,16 +38,16 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.videocam),
-          ),
-          IconButton(
-            onPressed: () {},
             icon: Icon(Icons.search),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.account_circle),
+            onPressed: () async {
+              String? res = await showSearch(
+                context: context,
+                delegate: CustomSearchDelegate(),
+              );
+              setState(() {
+                _resultado = res;
+              });
+            },
           ),
         ],
       ),
